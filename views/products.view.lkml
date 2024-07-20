@@ -1,5 +1,5 @@
 view: products {
-  sql_table_name: 'looker-private-demo.thelook.products' ;;
+  sql_table_name: `looker-private-demo.thelook.products` ;;
   drill_fields: [id]
 
 dimension: id{
