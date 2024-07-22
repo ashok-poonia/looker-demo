@@ -1,69 +1,74 @@
 view: order_items {
-  # # You can specify the table name if it's different from the view name:
-  # sql_table_name: my_schema_name.tester ;;
-  #
-  # # Define your dimensions and measures here, like this:
-  # dimension: user_id {
-  #   description: "Unique ID for each user that has ordered"
-  #   type: number
-  #   sql: ${TABLE}.user_id ;;
-  # }
-  #
-  # dimension: lifetime_orders {
-  #   description: "The total number of orders for each user"
-  #   type: number
-  #   sql: ${TABLE}.lifetime_orders ;;
-  # }
-  #
-  # dimension_group: most_recent_purchase {
-  #   description: "The date when each user last ordered"
-  #   type: time
-  #   timeframes: [date, week, month, year]
-  #   sql: ${TABLE}.most_recent_purchase_at ;;
-  # }
-  #
-  # measure: total_lifetime_orders {
-  #   description: "Use this for counting lifetime orders across many users"
-  #   type: sum
-  #   sql: ${lifetime_orders} ;;
-  # }
-}
+  sql_table_name: `looker-private-demo.thelook.order_items` ;;
+  drill_fields: [id]
 
-# view: order_items {
-#   # Or, you could make this view a derived table, like this:
-#   derived_table: {
-#     sql: SELECT
-#         user_id as user_id
-#         , COUNT(*) as lifetime_orders
-#         , MAX(orders.created_at) as most_recent_purchase_at
-#       FROM orders
-#       GROUP BY user_id
-#       ;;
-#   }
-#
-#   # Define your dimensions and measures here, like this:
-#   dimension: user_id {
-#     description: "Unique ID for each user that has ordered"
-#     type: number
-#     sql: ${TABLE}.user_id ;;
-#   }
-#
-#   dimension: lifetime_orders {
-#     description: "The total number of orders for each user"
-#     type: number
-#     sql: ${TABLE}.lifetime_orders ;;
-#   }
-#
-#   dimension_group: most_recent_purchase {
-#     description: "The date when each user last ordered"
-#     type: time
-#     timeframes: [date, week, month, year]
-#     sql: ${TABLE}.most_recent_purchase_at ;;
-#   }
-#
-#   measure: total_lifetime_orders {
-#     description: "Use this for counting lifetime orders across many users"
-#     type: sum
-#     sql: ${lifetime_orders} ;;
-#   }
-# }
+  dimension: id {
+    primary_key:  yes
+    type: number
+    sql: ${TABLE}.id ;;
+  }
+
+  dimension: status {
+    type: string
+    sql: ${TABLE}.status ;;
+  }
+
+  dimension_group: creation_at {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    datatype: date
+    sql: ${TABLE}.created_at ;;
+  }
+
+  dimension_group: return_at {
+    type: time
+    timeframes:  [
+      raw,
+      date,
+      week,
+      month,
+      year
+    ]
+    datatype: date
+    sql: ${TABLE}.returned_at ;;
+  }
+
+  dimension_group: shiped_at {
+    type: time
+    timeframes:  [
+      raw,
+      date,
+      week,
+      month,
+      year
+    ]
+    datatype: date
+    sql: ${TABLE}.shipped_at ;;
+  }
+
+  dimension_group: delivered_at {
+    type: time
+    timeframes:  [
+      raw,
+      date,
+      week,
+      month,
+      year
+    ]
+    datatype: date
+    sql: ${TABLE}.delivered_at ;;
+  }
+
+  measure: total_revenue{
+    type: sum
+    sql: ${TABLE}.sale_price ;;
+    value_format: "#,##0.00"
+  }
+  }

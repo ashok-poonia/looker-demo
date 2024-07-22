@@ -41,6 +41,7 @@ dimension: sku{
 dimension: distribution_center_id{
   description: "unique distribution center id"
   type: string
+  hidden: yes
   sql: ${TABLE}.distribution_center_id ;;
 }
 
