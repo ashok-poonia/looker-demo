@@ -66,6 +66,17 @@ view: order_items {
     sql: ${TABLE}.delivered_at ;;
   }
 
+  dimension: inventory_item_id {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.inventory_item_id ;;
+  }
+
+  dimension: user_id {
+    type: number
+    sql: ${TABLE}.user_id ;;
+  }
+
   measure: total_revenue{
     type: sum
     sql: ${TABLE}.sale_price ;;
